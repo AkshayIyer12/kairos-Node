@@ -1,9 +1,25 @@
 <!Doctype html>
 <html>
   <head>
-    <title>Static</title>
+    <title>Locomotion</title>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <form method="post" enctype="multipart/form-data" action="/upload">
+      <div>
+        <label for="subjectId">Name of the person</label>
+        <input id="subjectId" name="subjectId" type="text">
+      </div>
+      <div>
+        <label for="galleryName">Name of the Gallery</label>
+        <input id="galleryName" name="galleryName" type="text">
+        </div>
+      <div>
+        <label for="image_upload">Choose an image to upload (PNG, JPG)</label>
+        <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png">
+      </div>
+      <div>
+        <button>Submit</button>
+      </div>
+    </form>
   </body>
 </html>
