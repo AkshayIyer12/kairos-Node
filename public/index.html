@@ -4,7 +4,7 @@
     <title>Locomotion</title>
   </head>
   <body>
-    <form method="post" id="form" enctype="multipart/form-data" action="/enroll">
+    <form method="post" id="form" enctype="multipart/form-data" action="/upload">
       <div>
         <label for="subjectId">Name of the person</label>
         <input id="subjectId" name="subjectId" type="text">
@@ -24,18 +24,8 @@
         <label for="Verify">Verify</label>
       </div>
       <div>
-        <button onsubmit="setActionInForm">Submit</button>
+        <button>Submit</button>
       </div>
     </form>
   </body>
-  <script>
-    const setActionInForm = () => {
-      const $ = a => document.getElementById(a)
-      if ($('Enroll').checked === true) {
-        $('form').attributes.action.value = '/enroll'
-      } else {
-        $('form').attributes.action.value = '/verify'
-      }
-    }
-  </script>
 </html>
