@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const routes = require('./routes')
 const multer = require('multer')()
-const { uploadOrVerify, createParamsObject } = require('./helper.js')
+const { uploadOrVerifyOrRecognize, createParamsObject } = require('./helper.js')
 
 let app = express()
 
@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.post(routes.upload, multer.any(), (req, res) => {
   const [param, method] = createParamsObject(req)
-  uploadOrVerify(param, method)
+  uploadOrVerifyOrRecognize(param, method)
   .then(data => res.json({
     status: 'success',
     data: data
