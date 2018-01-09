@@ -1,5 +1,6 @@
 const routes = {
-  upload: '/upload'
+  enroll: '/enroll',
+  verify: '/verify'
 }
 
 module.exports = routes
