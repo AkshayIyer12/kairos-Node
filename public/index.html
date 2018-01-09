@@ -4,7 +4,7 @@
     <title>Locomotion</title>
   </head>
   <body>
-    <form method="post" enctype="multipart/form-data" action="/upload">
+    <form method="post" id="form" enctype="multipart/form-data" action="/enroll">
       <div>
         <label for="subjectId">Name of the person</label>
         <input id="subjectId" name="subjectId" type="text">
@@ -17,9 +17,25 @@
         <label for="image_upload">Choose an image to upload (PNG, JPG)</label>
         <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png">
       </div>
+      <div id="methods">
+        <input type="radio" id="Enroll" name="method" value="enroll">
+        <label for="Enroll">Enroll</label>
+        <input type="radio" id="Verify" name="method" value="verify">
+        <label for="Verify">Verify</label>
+      </div>
       <div>
-        <button>Submit</button>
+        <button onsubmit="setActionInForm">Submit</button>
       </div>
     </form>
   </body>
+  <script>
+    const setActionInForm = () => {
+      const $ = a => document.getElementById(a)
+      if ($('Enroll').checked === true) {
+        $('form').attributes.action.value = '/enroll'
+      } else {
+        $('form').attributes.action.value = '/verify'
+      }
+    }
+  </script>
 </html>
