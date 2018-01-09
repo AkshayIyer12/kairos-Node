@@ -19,9 +19,14 @@ app.post(routes.upload, multer.any() ,(req, res) => {
   params.gallery_name = req.body.galleryName
   let param = JSON.stringify(params)
   enroll(param)
-    .then(v => console.log(v, v.images[0].attributes, v.images[0].transaction))
-    .catch(err => console.error(err))
-
+    .then(v => res.json({
+      status: 'success',
+      data: 'Image was successfully enrolled'
+    }))
+    .catch(err => res.json({
+      status: 'error',
+      message: err.message
+    }))
 })
 
 const enroll = async (params) => {
