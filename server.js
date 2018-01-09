@@ -12,12 +12,25 @@ app.get('/', (req, res) => {
   res.sendFile('index.html')
 })
 
-app.post(routes.upload, multer.any() ,(req, res) => {
+app.post(routes.enroll, multer.any(), (req, res) => {
   const param = createParamsObject(req)
   enroll(param)
   .then(v => res.json({
     status: 'success',
-    data: 'Image was successfully enrolled'
+    data: v
+  }))
+  .catch(err => res.json({
+    status: 'error',
+    message: err.message
+  }))
+})
+
+app.post(routes.verify, multer.any(), (req, res) => {
+  const param = createParamsObject(req)
+  verify(param)
+  .then(v => res.json({
+    status: 'success',
+    data: v
   }))
   .catch(err => res.json({
     status: 'error',
