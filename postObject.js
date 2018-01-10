@@ -10,6 +10,25 @@ class PostObject {
       'app_key': appKey
     }
   }
+
+  setContentType (val) {
+    this.headers['Content-Type'] = val
+    return this
+  }
+
+  setFormData (fileData) {
+    let formData = {
+      source: {
+        value: fileData.buffer,
+        options: {
+          filename: fileData.originalname,
+          contentType: fileData.mimetype
+        }
+      }
+    }
+    this.formData = formData
+    return this
+  }
 }
 
 const createObject = params => new PostObject(params)
