@@ -1,22 +1,21 @@
 const { createObject } = require('./postObject.js')
-const rp = require('request-promise')
+const fetch = require('node-fetch')
 
 const uploadOrVerifyOrRecognize = async (params, method, fileData) => {
   let obj = createObject(params)
   if (method === 'v2/media') {
     obj = obj.setContentType('multipart/form-data')
     obj = obj.setFormData(fileData)
-    delete obj.body
   }
   try {
-    let url = ''
     obj.url = `http://api.kairos.com/${method}`
-    let data = await rp(obj)
-    if (method === 'enroll') return enrollImage(data)
-    if (method === 'verify') return verifyImage(data)
-    if (method === 'recognize') return recognizeImage(data)
-    if (method === 'detect') return detectImage(data)
-    console.log(data)
+    let data = await fetch(obj.url, obj)
+    let jsonData = await data.json()
+    if (method === 'enroll') return enrollImage(jsonData)
+    if (method === 'verify') return verifyImage(jsonData)
+    if (method === 'recognize') return recognizeImage(jsonData)
+    if (method === 'detect') return detectImage(jsonData)
+    console.log(jsonData)
   } catch (err) {
     throw err
   }
