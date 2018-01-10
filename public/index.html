@@ -6,22 +6,38 @@
   <body>
     <form method="post" id="form" enctype="multipart/form-data" action="/upload">
       <div>
-        <label for="subjectId">Name of the person</label>
+        <label for="subjectId">Subject ID</label>
         <input id="subjectId" name="subjectId" type="text">
       </div>
       <div>
-        <label for="galleryName">Name of the Gallery</label>
+        <label for="galleryName">Gallery Name</label>
         <input id="galleryName" name="galleryName" type="text">
-        </div>
+      </div>
       <div>
-        <label for="image_upload">Choose an image to upload (PNG, JPG)</label>
-        <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png">
+        <label for="image_upload">Choose an image to upload (PNG, JPG, MP4, flv)</label>
+        <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png, .mp4, .flv">
       </div>
       <div id="methods">
+        <h4>Facial Recognition</h4>
         <input type="radio" id="Enroll" name="method" value="enroll">
         <label for="Enroll">Enroll</label>
         <input type="radio" id="Verify" name="method" value="verify">
         <label for="Verify">Verify</label>
+        <input type="radio" id="Recognize" name="method" value="recognize">
+        <label for="Recognize">Recognize</label>
+        <input type="radio" id="Detect" name="method" value="detect">
+        <label for="Detect">Detect</label>
+      </div>
+      <div id="video">
+        <h4>Emotion Analysis</h4>
+        <input type="radio" id="PostMedia" name="vidMethod" value="v2/media">
+        <label for="PostMedia">Media</label>
+        <input type="radio" id="Analysis" name="vidMethod" value="v2/analytics">
+        <label for="Analysis">Analyze Media</label>
+        <div>
+          <label for="vidID">Media ID</label>
+          <input id="vidID" name="videoID" type="text">
+        </div>
       </div>
       <div>
         <button>Submit</button>
