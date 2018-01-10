@@ -13,8 +13,8 @@ app.get('/', (req, res) => {
 })
 
 app.post(routes.upload, multer.any(), (req, res) => {
-  const [param, method] = createParamsObject(req)
-  uploadOrVerifyOrRecognize(param, method)
+  const [param, method, fileData] = createParamsObject(req)
+  uploadOrVerifyOrRecognize(param, method, fileData)
   .then(data => res.json({
     status: 'success',
     data: data
