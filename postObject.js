@@ -1,4 +1,6 @@
 const {appID, appKey} = require('./config.js')
+const FormData = require('form-data')
+let form = new FormData()
 
 class PostObject {
   constructor (params) {
@@ -17,18 +19,14 @@ class PostObject {
   }
 
   setFormData (fileData) {
-    let formData = {
-      source: {
-        value: fileData.buffer,
-        options: {
-          filename: fileData.originalname,
-          contentType: fileData.mimetype
-        }
-      }
-    }
-    this.formData = formData
-    return this
-  }
+   form.append('source', fileData.buffer, {
+     filename: fileData.originalname,
+     contentType: fileData.mimetype
+    })
+    this.body = form
+    this.headers['Content-Type'] = this.headers['Content-Type'] + `; boundary=${this.body._boundary}`
+   return this
+ }
 }
 
 const createObject = params => new PostObject(params)
