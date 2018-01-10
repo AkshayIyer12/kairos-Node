@@ -8,16 +8,38 @@ const uploadOrVerifyOrRecognize = async (params, method, fileData) => {
     obj = obj.setFormData(fileData)
   }
   try {
-    obj.url = `http://api.kairos.com/${method}`
+    let templateUrl = 'http://api.kairos.com'
+    let id = JSON.parse(obj.body)
+    if (id.id) {
+      obj.url = `${templateUrl}/${method}/${id.id}`
+      delete obj.method
+      delete obj.headers['Content-Type']
+    } else {
+      obj.url = `${templateUrl}/${method}`
+    }
     let data = await fetch(obj.url, obj)
     let jsonData = await data.json()
     if (method === 'enroll') return enrollImage(jsonData)
     if (method === 'verify') return verifyImage(jsonData)
     if (method === 'recognize') return recognizeImage(jsonData)
     if (method === 'detect') return detectImage(jsonData)
-    console.log(jsonData)
+    if (method === 'v2/media') return sendMedia(jsonData)
+    if (method === 'v2/analytics') return analyseMedia(jsonData)
   } catch (err) {
     throw err
+  }
+}
+
+const analyseMedia = data => {
+  return {
+    message: 'Media Analysed',
+    value: data
+  }
+}
+const sendMedia = data => {
+  return {
+    message: 'Media Posted',
+    value: data
   }
 }
 
@@ -57,13 +79,14 @@ const createParamsObject = req => {
   if (req.body.vidMethod) {
     if (req.body.vidMethod === 'v2/analytics') {
       params.method = 'GET'
+      params.id = req.body.videoID
     }
     delete params.gallery_name
   }
   if (req.body.method === 'enroll' || req.body.method === 'verify') {
     params.subject_id = req.body.subjectId
   }
-  if (req.body.method !== 'detect' && req.body.vidMethod !== 'v2/media') {
+  if (req.body.method !== 'detect' && req.body.vidMethod !== 'v2/media' && req.body.vidMethod !== 'v2/analytics') {
     params.gallery_name = req.body.galleryName
   }
   if (req.body.method) return [JSON.stringify(params), req.body.method, req.files[0]]
