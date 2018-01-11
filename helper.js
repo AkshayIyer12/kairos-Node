@@ -95,7 +95,8 @@ const createParamsObject = req => {
   if (body.method === 'enroll' || body.method === 'verify') {
     params.subject_id = body.subjectId
   }
-  if (body.method !== 'detect' && body.vidMethod !== 'v2/media' && body.vidMethod !== 'v2/analytics') {
+  if (body.method !== 'detect' && body.vidMethod !== 'v2/media' &&
+   body.vidMethod !== 'v2/analytics') {
     params.gallery_name = body.galleryName
   }
   if (body.method) return [JSON.stringify(params), body.method, file]
