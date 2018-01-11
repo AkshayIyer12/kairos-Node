@@ -14,10 +14,9 @@ const sanitizeEnrollVerify = (body, file) => {
   let newBody = {}
   if (body && body.subjectId && body.galleryName) {
     let newFile = validateFile(file)
-    newBody.subjectId = body.subjectId
-    newBody.galleryName = body.galleryName
-    newBody.method = body.method
-    return [newBody, newFile]
+    newBody.subject_id = body.subjectId
+    newBody.gallery_name = body.galleryName
+    return [newBody, newFile, body.method]
   } else {
     throw Error('Data not entered or Invalid Data entered')
   }
@@ -27,9 +26,8 @@ const sanitizeRecognize = (body, file) => {
   let newBody = {}
   if (body && body.galleryName) {
     let newFile = validateFile(file)
-    newBody.galleryName = body.galleryName
-    newBody.method = body.method
-    return [newBody, newFile]
+    newBody.gallery_name = body.galleryName
+    return [newBody, newFile, body.method]
   } else {
     throw Error('Data not entered or Invalid Data entered')
   }
@@ -38,24 +36,25 @@ const sanitizeRecognize = (body, file) => {
 const sanitizeDetect = (body, file) => {
   let newFile = validateFile(file)
   let newBody = {}
-  newBody.method = body.method
-  return [newBody, newFile]
+  return [newBody, newFile, body.method]
 }
 
 const sanitizeMediaPost = (body, file) => {
   let newFile = validateFile(file)
   let newBody = {}
-  newBody.vidMethod = body.vidMethod
-  return [newBody, newFile]
+  return [newBody, newFile, body.vidMethod]
 }
 const sanitizeAnalytics = (body, file) => {
   let newBody = {}
-  newBody.videoID = body.videoID
-  newBody.vidMethod = body.vidMethod
-  return [newBody, null]
+  newBody.id = body.videoID
+  newBody.method = 'GET'
+  return [newBody, null, body.vidMethod]
 }
 
 const sanitizeForm = req => {
+  if (req.body.method && req.body.vidMethod) {
+    throw Error('Both methods selected. Reload the page!')
+  }
   if (req.body.method === 'enroll' || req.body.method === 'verify') {
     return sanitizeEnrollVerify(req.body, req.files[0])
   }
