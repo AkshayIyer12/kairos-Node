@@ -1,5 +1,6 @@
 const validateFile = file => {
-  if (file && (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png')) {
+  if (file && (file.mimetype === 'image/jpeg' ||
+   file.mimetype === 'image/jpg' || file.mimetype === 'image/png')) {
     return file
   } else {
     throw Error('File not found or filetype not supported')
@@ -31,12 +32,21 @@ const sanitizeRecognize = (body, file) => {
   }
 }
 
+const sanitizeDetect = (body, file) => {
+  let newFile = validateFile(file)
+  let newBody = {}
+  newBody.method = body.method
+  return [newBody, newFile]
+}
 const sanitizeForm = req => {
   if (req.body.method === 'enroll' || req.body.method === 'verify') {
     return sanitizeEnrollVerify(req.body, req.files[0])
   }
   if (req.body.method === 'recognize') {
     return sanitizeRecognize(req.body, req.files[0])
+  }
+  if (req.body.method === 'detect') {
+    return sanitizeDetect(req.body, req.files[0])
   } else {
     throw Error('Method not entered')
   }
