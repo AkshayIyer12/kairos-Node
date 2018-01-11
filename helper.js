@@ -9,8 +9,11 @@ const uploadOrVerifyOrRecognize = async (params, method, fileData) => {
   }
   try {
     let templateUrl = 'http://api.kairos.com'
-    let id = JSON.parse(obj.body)
-    if (id.id) {
+    let id
+    if (method === 'v2/analytics') {
+      id = JSON.parse(obj.body)
+    }
+    if (id && id.id) {
       obj.url = `${templateUrl}/${method}/${id.id}`
       delete obj.method
       delete obj.headers['Content-Type']
