@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const routes = require('./routes')
 const multer = require('multer')()
-const { uploadOrVerifyOrRecognize } = require('./helper.js')
+const { showResults } = require('./helper.js')
 
 let app = express()
 
@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 })
 
 app.post(routes.upload, multer.any(), (req, res) => {
-  uploadOrVerifyOrRecognize(req)
+  showResults(req)
   .then(data => res.json({
     status: 'success',
     data: data
