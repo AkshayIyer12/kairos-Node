@@ -90,7 +90,6 @@ const createParamsObject = req => {
       params.method = 'GET'
       params.id = body.videoID
     }
-    delete params.gallery_name
   }
   if (body.method === 'enroll' || body.method === 'verify') {
     params.subject_id = body.subjectId
