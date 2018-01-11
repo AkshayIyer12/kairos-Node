@@ -1,7 +1,12 @@
 const { createObject } = require('./postObject.js')
 const fetch = require('node-fetch')
+const { sanitizeForm } = require('./formValidation.js')
 
-const uploadOrVerifyOrRecognize = async (params, method, fileData) => {
+const uploadOrVerifyOrRecognize = async (req) => {
+  const [params, method, fileData] = createParamsObject(req)
+  if (method === undefined) {
+    throw Error('Method not selected')
+  }
   let obj = createObject(params)
   if (method === 'v2/media') {
     obj = obj.setContentType('multipart/form-data')
@@ -76,27 +81,27 @@ const detectImage = data => {
 
 const createParamsObject = req => {
   const params = Object.create(null)
-  if (req.body.method) {
-    params.image = Buffer.from(req.files[0].buffer).toString('base64')
+  let [body, file] = sanitizeForm(req)
+  if (body.method) {
+    params.image = Buffer.from(file.buffer).toString('base64')
   }
-  if (req.body.vidMethod) {
-    if (req.body.vidMethod === 'v2/analytics') {
+  if (body.vidMethod) {
+    if (body.vidMethod === 'v2/analytics') {
       params.method = 'GET'
-      params.id = req.body.videoID
+      params.id = body.videoID
     }
     delete params.gallery_name
   }
-  if (req.body.method === 'enroll' || req.body.method === 'verify') {
-    params.subject_id = req.body.subjectId
+  if (body.method === 'enroll' || body.method === 'verify') {
+    params.subject_id = body.subjectId
   }
-  if (req.body.method !== 'detect' && req.body.vidMethod !== 'v2/media' && req.body.vidMethod !== 'v2/analytics') {
-    params.gallery_name = req.body.galleryName
+  if (body.method !== 'detect' && body.vidMethod !== 'v2/media' && body.vidMethod !== 'v2/analytics') {
+    params.gallery_name = body.galleryName
   }
-  if (req.body.method) return [JSON.stringify(params), req.body.method, req.files[0]]
-  else return [JSON.stringify(params), req.body.vidMethod, req.files[0]]
+  if (body.method) return [JSON.stringify(params), body.method, file]
+  else return [JSON.stringify(params), body.vidMethod, file]
 }
 
 module.exports = {
-  uploadOrVerifyOrRecognize,
-  createParamsObject
+  uploadOrVerifyOrRecognize
 }
