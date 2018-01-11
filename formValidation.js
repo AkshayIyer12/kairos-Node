@@ -2,6 +2,9 @@ const validateFile = file => {
   if (file && (file.mimetype === 'image/jpeg' ||
    file.mimetype === 'image/jpg' || file.mimetype === 'image/png')) {
     return file
+  }
+  if (file && (file.mimetype === 'video/mp4' || file.mimetype === 'video/flv')) {
+    return file
   } else {
     throw Error('File not found or filetype not supported')
   }
@@ -38,6 +41,20 @@ const sanitizeDetect = (body, file) => {
   newBody.method = body.method
   return [newBody, newFile]
 }
+
+const sanitizeMediaPost = (body, file) => {
+  let newFile = validateFile(file)
+  let newBody = {}
+  newBody.vidMethod = body.vidMethod
+  return [newBody, newFile]
+}
+const sanitizeAnalytics = (body, file) => {
+  let newBody = {}
+  newBody.videoID = body.videoID
+  newBody.vidMethod = body.vidMethod
+  return [newBody, null]
+}
+
 const sanitizeForm = req => {
   if (req.body.method === 'enroll' || req.body.method === 'verify') {
     return sanitizeEnrollVerify(req.body, req.files[0])
@@ -47,6 +64,12 @@ const sanitizeForm = req => {
   }
   if (req.body.method === 'detect') {
     return sanitizeDetect(req.body, req.files[0])
+  }
+  if (req.body.vidMethod === 'v2/media') {
+    return sanitizeMediaPost(req.body, req.files[0])
+  }
+  if (req.body.vidMethod === 'v2/analytics') {
+    return sanitizeAnalytics(req.body, req.files[0])
   } else {
     throw Error('Method not entered')
   }
