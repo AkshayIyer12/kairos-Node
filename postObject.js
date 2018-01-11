@@ -24,7 +24,8 @@ class PostObject {
       contentType: fileData.mimetype
     })
     this.body = form
-    this.headers['Content-Type'] = this.headers['Content-Type'] + `; boundary=${this.body._boundary}`
+    this.headers['Content-Type'] = this.headers['Content-Type'] +
+    `; boundary=${this.body._boundary}`
     return this
   }
 }
