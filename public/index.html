@@ -1,10 +1,26 @@
-<!Doctype html>
-<html>
-  <head>
-    <title>Face Mask</title>
-  </head>
-  <body>
-    <form method="post" id="form" enctype="multipart/form-data" action="/upload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="index.css"> -->
+</head>
+<body>
+  <div>
+    <label for="flip-1">Flip switch:</label>
+    <select name="flip-1" id="flip-1" data-role="slider" onchange="hideDiv()">
+	    <option value="emotion">Emotion Analysis</option>
+	    <option value="face">Face Recognition</option>
+    </select> 
+  </div>  
+  <form method="post" id="form" enctype="multipart/form-data" action="/upload">
+    <div>
+        <label for="image_upload">Choose an image to upload (PNG, JPG, MP4, flv)</label>
+        <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png, .mp4, .flv">
+    </div>
+    <div id="faceID">
       <div>
         <label for="subjectId">Subject ID</label>
         <input id="subjectId" name="subjectId" type="text">
@@ -12,10 +28,6 @@
       <div>
         <label for="galleryName">Gallery Name</label>
         <input id="galleryName" name="galleryName" type="text">
-      </div>
-      <div>
-        <label for="image_upload">Choose an image to upload (PNG, JPG, MP4, flv)</label>
-        <input type="file" id="image_upload" name="image_upload" accept=".jpg, .png, .mp4, .flv">
       </div>
       <div id="methods">
         <h4>Facial Recognition</h4>
@@ -28,20 +40,24 @@
         <input type="radio" id="Detect" name="method" value="detect">
         <label for="Detect">Detect</label>
       </div>
-      <div id="video">
-        <h4>Emotion Analysis</h4>
-        <input type="radio" id="PostMedia" name="vidMethod" value="v2/media">
-        <label for="PostMedia">Media</label>
-        <input type="radio" id="Analysis" name="vidMethod" value="v2/analytics">
-        <label for="Analysis">Analyze Media</label>
-        <div>
-          <label for="vidID">Media ID</label>
-          <input id="vidID" name="videoID" type="text">
-        </div>
-      </div>
+    </div>
+    
+    <div id="videoID">
+      <h4>Emotion Analysis</h4>
+      <input type="radio" id="PostMedia" name="vidMethod" value="v2/media">
+      <label for="PostMedia">Media</label>
+      <input type="radio" id="Analysis" name="vidMethod" value="v2/analytics">
+      <label for="Analysis">Analyze Media</label>
       <div>
-        <button>Submit</button>
+        <label for="vidID">Media ID</label>
+        <input id="vidID" name="videoID" type="text">
       </div>
-    </form>
-  </body>
+    </div>
+    
+    <div>
+      <button>Submit</button>
+    </div>
+  </form>
+  <script src="index.js"></script>
+</body>
 </html>
