@@ -19,14 +19,14 @@ class PostObject {
   }
 
   setFormData (fileData) {
-   form.append('source', fileData.buffer, {
-     filename: fileData.originalname,
-     contentType: fileData.mimetype
+    form.append('source', fileData.buffer, {
+      filename: fileData.originalname,
+      contentType: fileData.mimetype
     })
     this.body = form
     this.headers['Content-Type'] = this.headers['Content-Type'] + `; boundary=${this.body._boundary}`
-   return this
- }
+    return this
+  }
 }
 
 const createObject = params => new PostObject(params)
