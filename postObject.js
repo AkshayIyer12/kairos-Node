@@ -30,8 +30,8 @@ class PostObject {
   }
 }
 
-const createObject = params => new PostObject(params)
+const createPostObject = params => new PostObject(params)
 
 module.exports = {
-  createObject
+  createPostObject
 }
