@@ -1,6 +1,7 @@
-const { createPostObject } = require('./postObject.js')
 const fetch = require('node-fetch')
+const { createPostObject } = require('./postObject.js')
 const { sanitizeForm } = require('./formValidation.js')
+const { methodType } = require('./util.js')
 
 const showResults = async (req) => {
   try {
@@ -53,15 +54,7 @@ const createObject = req => {
 
 const sanitizeData = req => {
   let [body, file, method] = sanitizeForm(req)
-  let obj = {
-    'enroll': 1,
-    'verify': 1,
-    'recognize': 1,
-    'detect': 1,
-    'v2/media': 0,
-    'v2/analytics': 0
-  }
-  if (obj[method]) {
+  if (methodType[method]) {
     body.image = Buffer.from(file.buffer).toString('base64')
   }
   return [JSON.stringify(body), method, file]
