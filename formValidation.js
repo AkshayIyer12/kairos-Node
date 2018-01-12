@@ -44,11 +44,16 @@ const sanitizeMediaPost = (body, file) => {
   let newBody = {}
   return [newBody, newFile, body.vidMethod]
 }
+
 const sanitizeAnalytics = (body, file) => {
-  let newBody = {}
-  newBody.id = body.videoID
-  newBody.method = 'GET'
-  return [newBody, null, body.vidMethod]
+  if (body.videoID) {
+    let newBody = {}
+    newBody.id = body.videoID
+    newBody.method = 'GET'
+    return [newBody, null, body.vidMethod]
+  } else {
+    throw Error('Media ID not entered')
+  }
 }
 
 const sanitizeForm = req => {
